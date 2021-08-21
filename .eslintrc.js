@@ -14,6 +14,7 @@ module.exports = {
   },
   parserOptions: {
     project: 'tsconfig.json',
+    tsconfigRootDir: __dirname,
     ecmaFeatures: {
       jsx: true,
     },
@@ -36,6 +37,7 @@ module.exports = {
     'no-param-reassign': 'off',
     'arrow-parens': [0, { requireForBlockBody: false }],
     'jsx-quotes': 'off',
+    'linebreak-style': ['error', process.platform === 'win32' ? 'windows' : 'unix'],
     'react/jsx-one-expression-per-line': 'off',
   },
 };

@@ -1,5 +1,4 @@
-import Chip from '@material-ui/core/Chip';
-import { withStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@material-ui/core/styles';
 
 const cardStyles = (theme: Theme) => ({
   root: {
@@ -9,4 +8,5 @@ const cardStyles = (theme: Theme) => ({
     color: theme.palette.primary.main,
   },
 });
-export default withStyles(cardStyles)(Chip);
+
+export default cardStyles;

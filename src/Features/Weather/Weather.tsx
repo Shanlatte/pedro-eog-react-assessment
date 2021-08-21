@@ -9,7 +9,7 @@ import {
 import { useGeolocation } from 'react-use';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { Typography } from '@material-ui/core';
-import Chip from '../../components/Chip';
+import Chip from '../../components/Chip/Chip.component';
 
 const client = new ApolloClient({
   uri: 'https://react.eogresources.com/graphql',

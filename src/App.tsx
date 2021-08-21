@@ -3,9 +3,17 @@ import { ToastContainer } from 'react-toastify';
 import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import 'react-toastify/dist/ReactToastify.css';
-import Header from './components/Header';
-import Wrapper from './components/Wrapper';
-import NowWhat from './components/NowWhat';
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+} from '@apollo/client';
+import { Provider } from 'react-redux';
+import Header from './components/Header/Header.component';
+import Wrapper from './components/Wrapper/Wrapper.component';
+
+import { store } from './redux/store';
+import Body from './components/Body/Body.component';
 
 const theme = createTheme({
   palette: {
@@ -21,15 +29,24 @@ const theme = createTheme({
   },
 });
 
+const client = new ApolloClient({
+  uri: 'https://react.eogresources.com/graphql',
+  cache: new InMemoryCache(),
+});
+
 const App = () => (
-  <MuiThemeProvider theme={theme}>
-    <CssBaseline />
-    <Wrapper>
-      <Header />
-      <NowWhat />
-      <ToastContainer />
-    </Wrapper>
-  </MuiThemeProvider>
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <Wrapper>
+          <Header />
+          <Body />
+          <ToastContainer />
+        </Wrapper>
+      </MuiThemeProvider>
+    </Provider>
+  </ApolloProvider>
 );
 
 export default App;
