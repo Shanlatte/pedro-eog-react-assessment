@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { Grid, Paper } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import MetricsSelector from '../MetricsSelector/MetricsSelector.container';
-import MetricsChart from '../MetricsChart/MetricsChart.component';
 import MetricsChartContainer from '../MetricsChart/MetricsChart.container';
 import { RootState } from '../../redux/root-reducer';
 import useStyles from './styles';
@@ -21,7 +20,6 @@ const Body : FC = () => {
       {metrics?.length && (
         <Grid className={classes.chart} item xs={12}>
           <MetricsChartContainer />
-          <MetricsChart />
         </Grid>
       )}
     </Grid>

@@ -1,22 +1,25 @@
 import React, { FC } from 'react';
 import { useQuery, gql } from '@apollo/client';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/root-reducer';
+import { Measurements } from '../../types';
+import { setMeasurements } from '../../redux/measurements/measurements.actions';
+import MetricsChart from './MetricsChart.component';
 
 const measurementQuery = gql`
 query ($input: [MeasurementQuery]) {
       getMultipleMeasurements(input: $input) {
       metric,
-      measurements{at,value,unit}
+      measurements{metric, at,value,unit}
       } 
 }
 `;
 
-type MetricsDataResponse = {
-  getMultipleMeasurements: ResponseData[];
+type MeasurementsDataResponse = {
+  getMultipleMeasurements: Measurements[];
 };
 
-type MetricsDataVariable = {
+type MeasurementsDataVariable = {
   input: InputType[];
 };
 
@@ -25,34 +28,27 @@ type InputType = {
   before: Number,
   after: Number
 };
-type ResponseData = {
-  metric: String,
-  measurements : Measurement[]
-};
-type Measurement = {
-  at: Number,
-  value: Number,
-  unit: String
-};
+
 const MetricsChartContainer : FC = () => {
   const metrics = useSelector((state: RootState) => state.metrics.metrics) || [];
-
-  const measurementRes = useQuery<MetricsDataResponse, MetricsDataVariable>(
+  const dispatch = useDispatch();
+  useQuery<MeasurementsDataResponse, MeasurementsDataVariable>(
     measurementQuery,
     {
       variables: {
-        input: metrics.map(x => ({
-          metricName: x,
+        input: metrics.map(metric => ({
+          metricName: metric,
           before: 1629512492714,
           after: 1629512477940,
         }) || []),
       },
+      onCompleted: (data) => {
+        dispatch(setMeasurements(data.getMultipleMeasurements));
+      },
     },
   );
 
-  const { data } = measurementRes;
-  console.log('DATA', data);
-  return <div>Hols</div>;
+  return <MetricsChart />;
 };
 
 export default MetricsChartContainer;
