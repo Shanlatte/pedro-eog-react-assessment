@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { FC, Key } from 'react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
@@ -6,20 +5,31 @@ import {
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { RootState } from '../../redux/root-reducer';
+import { Measurements } from '../../types';
 
 const metricColors = ['green', 'blue', 'purple', 'red', 'teal', 'black'];
 const MetricsChart : FC = () => {
-  const measurements = useSelector((state: RootState) => state.measurements.measurements);
+  // eslint-disable-next-line max-len
+  const measurements : Measurements[] = useSelector((state: RootState) => state.measurements.measurements);
 
-  const timestamptoDateFormatter = (date: any, value?: boolean): string => {
-    if (value) {
-      return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+  const CustomTooltip = ({ active, payload, label } :any) => {
+    console.log(active, payload, label);
+    const labelFormated = moment(label).format('MMMM Do YYYY, h:mm:ss a');
+    if (active && payload && payload.length) {
+      return (
+        <div className="custom-tooltip" style={{ backgroundColor: 'white' }}>
+          <p className="label">{`${labelFormated}`}</p>
+          {payload.map((metric :any) => (
+            <p className="label">{`${metric.name} : ${metric.value}${metric.payload.unit}`}</p>
+          ))}
+        </div>
+      );
     }
-    return moment(date).format(' h:mm a');
+    return null;
   };
 
   return (
-    <ResponsiveContainer width="95%" height="100%" minHeight='0' minWidth='0'>
+    <ResponsiveContainer width="90%">
       <LineChart
         width={100}
         height={100}
@@ -34,13 +44,29 @@ const MetricsChart : FC = () => {
         <XAxis
           allowDuplicatedCategory={false}
           dataKey="at"
-          tickFormatter={(val) => timestamptoDateFormatter(val)}
+          tickFormatter={(val) => moment(val).format(' h:mm a')}
+          interval={235}
         />
-        <YAxis />
-        <Tooltip />
+        <YAxis
+          yAxisId='PSI'
+          dataKey="value"
+          label={{ value: 'PSI', angle: -90, position: 'insideTopLeft' }}
+        />
+        <YAxis
+          yAxisId='%'
+          dataKey="value"
+          label={{ value: '%', angle: -90, position: 'insideTopLeft' }}
+        />
+        <YAxis
+          yAxisId='F'
+          dataKey="value"
+          label={{ value: 'F', angle: -90, position: 'insideTopLeft' }}
+        />
+        <Tooltip content={<CustomTooltip />} />
         <Legend />
         {measurements.map((measure, index) => (
           <Line
+            yAxisId={measure.measurements[0].unit}
             key={measure.metric as Key}
             name={measure.metric}
             data={measure.measurements || []}

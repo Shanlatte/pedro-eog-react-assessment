@@ -3,6 +3,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { useDispatch } from 'react-redux';
 import { setMetrics } from '../../redux/metrics/metrics.actions';
+import { updateHeartBeat } from '../../redux/measurements/measurements.actions';
 import useStyles from './styles';
 import { MetricsSelectorProps } from './types';
 
@@ -11,6 +12,8 @@ const MetricsSelector : FC<MetricsSelectorProps> = ({ metrics }) => {
   const dispatch = useDispatch();
 
   const handleChange = (metricsArray : string[]) => {
+    const newTime = new Date().getTime();
+    dispatch(updateHeartBeat(newTime));
     dispatch(setMetrics(metricsArray));
   };
 

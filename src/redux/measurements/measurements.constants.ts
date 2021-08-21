@@ -1,2 +1,3 @@
 // Constants
 export const SET_MEASUREMENTS = 'SET_MEASUREMENTS';
+export const UPDATE_HEARTBEAT = 'UPDATE_HEARTBEAT';

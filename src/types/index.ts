@@ -2,7 +2,7 @@ export type Measurement = {
   metric:String,
   at: Number,
   value: Number,
-  unit: String
+  unit: string
 };
 
 export type Measurements = {

@@ -25,12 +25,14 @@ type MeasurementsDataVariable = {
 
 type InputType = {
   metricName: String,
-  before: Number,
-  after: Number
+  before: number,
+  after: number
 };
 
 const MetricsChartContainer : FC = () => {
   const metrics = useSelector((state: RootState) => state.metrics.metrics) || [];
+  const after = useSelector((state: RootState) => state.measurements.after);
+  const before = useSelector((state: RootState) => state.measurements.before);
   const dispatch = useDispatch();
   useQuery<MeasurementsDataResponse, MeasurementsDataVariable>(
     measurementQuery,
@@ -38,8 +40,8 @@ const MetricsChartContainer : FC = () => {
       variables: {
         input: metrics.map(metric => ({
           metricName: metric,
-          before: 1629512492714,
-          after: 1629512477940,
+          before,
+          after,
         }) || []),
       },
       onCompleted: (data) => {
