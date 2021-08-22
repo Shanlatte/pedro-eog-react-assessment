@@ -8,6 +8,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   title: {
     color: 'white',
   },
+  datetitle: {
+    color: 'white',
+    marginBottom: theme.spacing(1),
+  },
 }));
 
 export default useStyles;

@@ -1,22 +1,13 @@
 import React, { FC } from 'react';
 import {
-  ApolloClient,
-  ApolloProvider,
   useQuery,
   gql,
-  InMemoryCache,
 } from '@apollo/client';
 import { useGeolocation } from 'react-use';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { Typography } from '@material-ui/core';
 import Chip from '../../components/Chip/Chip.component';
-
-const client = new ApolloClient({
-  uri: 'https://react.eogresources.com/graphql',
-  cache: new InMemoryCache(),
-});
-
-const toF = (c: number) => (c * 9) / 5 + 32;
+import Weather from './Weather.component';
 
 const query = gql`
   query ($latLong: WeatherQuery!) {
@@ -37,7 +28,7 @@ type WeatherDataResponse = {
   getWeatherForLocation: WeatherData;
 };
 
-const Weather: FC = () => {
+const WeatherContainer: FC = () => {
   const getLocation = useGeolocation();
   // Default to houston
   const latLong = {
@@ -55,11 +46,13 @@ const Weather: FC = () => {
   if (!data) return <Chip label="Weather not found" />;
   const { locationName, description, temperatureinCelsius } = data.getWeatherForLocation;
 
-  return <Chip label={`Weather in ${locationName}: ${description} and ${Math.round(toF(temperatureinCelsius))}°`} />;
+  return (
+    <Weather
+      locationName={locationName}
+      description={description}
+      temperatureinCelsius={temperatureinCelsius}
+    />
+  );
 };
 
-export default () => (
-  <ApolloProvider client={client}>
-    <Weather />
-  </ApolloProvider>
-);
+export default WeatherContainer;

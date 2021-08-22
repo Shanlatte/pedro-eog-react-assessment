@@ -12,17 +12,17 @@ const Body : FC = () => {
   const classes = useStyles();
   return (
     <Grid container>
-      <Grid item xs={8}>
-        <MetricsRealTimeContainer />
-      </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={12}>
         <MetricsSelectorContainer />
       </Grid>
       {metrics?.length && (
-        <Grid className={classes.chart} item xs={12}>
+        <Grid className={classes.chart} item xs={10}>
           <MetricsChartContainer />
         </Grid>
       )}
+      <Grid item xs={2}>
+        <MetricsRealTimeContainer />
+      </Grid>
     </Grid>
   );
 };

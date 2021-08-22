@@ -6,18 +6,17 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     width: '100%',
     height: '100%',
     display: 'flex',
-    marginLeft: theme.spacing(3),
     '& > *': {
       margin: theme.spacing(1),
     },
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'start',
+    marginTop: theme.spacing(2),
   },
   orange: {
     color: theme.palette.getContrastText(deepOrange[500]),
-    backgroundColor: deepOrange[500],
-    width: theme.spacing(9),
-    height: theme.spacing(9),
+    width: theme.spacing(24),
   },
 }));
 

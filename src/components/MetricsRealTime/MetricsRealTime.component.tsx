@@ -1,4 +1,4 @@
-import { Avatar } from '@material-ui/core';
+import { Chip, Typography } from '@material-ui/core';
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/root-reducer';
@@ -12,13 +12,17 @@ const MetricsRealTime : FC = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
+      <Typography variant="h6" component="h2" gutterBottom>
+        Real Time Measures
+      </Typography>
       {metrics.map((metric, index) => (
-        <Avatar
+        <Chip
           key={metric}
+          variant="outlined"
           className={classes.orange}
           style={{ backgroundColor: metricColors[index] }}
-        > {newMeasurement[metric as MetricsLiteral].value}
-        </Avatar>
+          label={`${metric}: ${newMeasurement[metric as MetricsLiteral].value}`}
+        />
       ))}
     </div>
   );

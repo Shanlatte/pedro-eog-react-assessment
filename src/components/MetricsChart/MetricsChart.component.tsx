@@ -1,6 +1,6 @@
 import React, { FC, Key } from 'react';
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
@@ -25,12 +25,14 @@ const MetricsChart : FC = () => {
     if (active && payload && payload.length) {
       return (
         <div>
-          <p>{`${timeFormated}`}</p>
           <Paper className={classes.tooltipPaper}>
             <Box p={1}>
+              <Typography variant="body2" className={classes.datetitle}>
+                {`${timeFormated}`}
+              </Typography>
               {payload.map((metric :any) => (
                 <Typography key={metric.name} variant="body2" className={classes.title}>
-                  {`${metric.name} : ${metric.value} ${metric.payload.unit}`}
+                  - {`${metric.name} : ${metric.value} ${metric.payload.unit}`}
                 </Typography>
               ))}
             </Box>
@@ -41,7 +43,7 @@ const MetricsChart : FC = () => {
     return null;
   };
   return (
-    <ResponsiveContainer width="90%">
+    <ResponsiveContainer>
       <LineChart
         width={100}
         height={100}
@@ -70,7 +72,6 @@ const MetricsChart : FC = () => {
           />
         ))}
         <Tooltip content={<CustomTooltip />} />
-        <Legend />
         {measurements.map((measure, index) => (
           <Line
             yAxisId={measure.measurements[0].unit}
