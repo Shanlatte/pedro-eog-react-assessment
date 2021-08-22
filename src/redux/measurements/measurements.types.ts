@@ -1,14 +1,24 @@
-import { Measurements } from '../../types';
-import { SET_MEASUREMENTS, UPDATE_HEARTBEAT } from './measurements.constants';
+import { Measurements, Measurement } from '../../types';
+import { SET_MEASUREMENTS, UPDATE_HEARTBEAT, SET_NEW_MEASURE } from './measurements.constants';
 
-// Metrics State
+// Measurements State
 export interface MeasurementState {
   measurements: Measurements[],
   before: number,
-  after: number
+  after: number,
+  newMeasurements: NewMeasurements,
 }
 
-// Metrics Actions
+export interface NewMeasurements {
+  oilTemp: Measurement,
+  casingPressure: Measurement,
+  flareTemp: Measurement,
+  injValveOpen: Measurement,
+  tubingPressure: Measurement,
+  waterTemp: Measurement,
+}
+
+// Measurements Actions
 interface SetMeaurementsAction {
   type: typeof SET_MEASUREMENTS
   payload: Measurements[]
@@ -19,5 +29,10 @@ interface UpdateHeartbeatAction {
   payload: number
 }
 
-export type MetricsActionTypes = (
-  SetMeaurementsAction | UpdateHeartbeatAction);
+interface SetNewMeasureAction {
+  type: typeof SET_NEW_MEASURE
+  payload: Measurement
+}
+
+export type MeasurementsActionTypes = (
+  SetMeaurementsAction | UpdateHeartbeatAction | SetNewMeasureAction);

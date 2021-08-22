@@ -1,5 +1,5 @@
 export type Measurement = {
-  metric:String,
+  metric:string,
   at: Number,
   value: Number,
   unit: string
@@ -8,4 +8,18 @@ export type Measurement = {
 export type Measurements = {
   metric: string,
   measurements : Measurement[]
+};
+
+export type NewMetricsType = {
+  oilTemp: Measurement;
+  tubingPressure: Measurement;
+  casingPressure: Measurement;
+  waterTemp: Measurement;
+  injValveOpen: Measurement;
+  flareTemp: Measurement;
+};
+export type MetricsLiteral = keyof NewMetricsType;
+export type MetricsOptions = {
+  value: string;
+  label: string;
 };
