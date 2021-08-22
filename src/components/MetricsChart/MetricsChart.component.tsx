@@ -4,30 +4,42 @@ import {
 } from 'recharts';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { Box, Paper, Typography } from '@material-ui/core';
 import { RootState } from '../../redux/root-reducer';
 import { Measurements } from '../../types';
+import useStyles from './styles';
 
-const metricColors = ['green', 'blue', 'purple', 'red', 'teal', 'black'];
 const MetricsChart : FC = () => {
-  // eslint-disable-next-line max-len
-  const measurements : Measurements[] = useSelector((state: RootState) => state.measurements.measurements);
+  const metricColors = ['green', 'blue', 'purple', 'red', 'teal', 'black'];
+  const classes = useStyles();
+
+  const measurements : Measurements[] = useSelector((state: RootState) => (
+    state.measurements.measurements));
+
+  const unitValidation = (unit : string) => (
+    !measurements.some(measurement => measurement.measurements[0].unit === unit));
 
   const CustomTooltip = ({ active, payload, label } :any) => {
-    console.log(active, payload, label);
-    const labelFormated = moment(label).format('MMMM Do YYYY, h:mm:ss a');
+    const timeFormated = moment(label).format('MMMM Do YYYY, h:mm:ss a');
+
     if (active && payload && payload.length) {
       return (
-        <div className="custom-tooltip" style={{ backgroundColor: 'white' }}>
-          <p className="label">{`${labelFormated}`}</p>
-          {payload.map((metric :any) => (
-            <p className="label">{`${metric.name} : ${metric.value}${metric.payload.unit}`}</p>
-          ))}
+        <div>
+          <p>{`${timeFormated}`}</p>
+          <Paper className={classes.tooltipPaper}>
+            <Box p={1}>
+              {payload.map((metric :any) => (
+                <Typography key={metric.name} variant="body2" className={classes.title}>
+                  {`${metric.name} : ${metric.value} ${metric.payload.unit}`}
+                </Typography>
+              ))}
+            </Box>
+          </Paper>
         </div>
       );
     }
     return null;
   };
-
   return (
     <ResponsiveContainer width="90%">
       <LineChart
@@ -47,21 +59,16 @@ const MetricsChart : FC = () => {
           tickFormatter={(val) => moment(val).format(' h:mm a')}
           interval={235}
         />
-        <YAxis
-          yAxisId='PSI'
-          dataKey="value"
-          label={{ value: 'PSI', angle: -90, position: 'insideTopLeft' }}
-        />
-        <YAxis
-          yAxisId='%'
-          dataKey="value"
-          label={{ value: '%', angle: -90, position: 'insideTopLeft' }}
-        />
-        <YAxis
-          yAxisId='F'
-          dataKey="value"
-          label={{ value: 'F', angle: -90, position: 'insideTopLeft' }}
-        />
+        {['PSI', '%', 'F'].map(unit => (
+          <YAxis
+            yAxisId={unit}
+            dataKey="value"
+            offset={10}
+            key={unit}
+            label={{ value: unit, angle: -90, position: 'insideTopLeft' }}
+            hide={unitValidation(unit)}
+          />
+        ))}
         <Tooltip content={<CustomTooltip />} />
         <Legend />
         {measurements.map((measure, index) => (
