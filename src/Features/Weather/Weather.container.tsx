@@ -2,9 +2,10 @@ import React, { FC } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { useGeolocation } from 'react-use';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { Typography } from '@material-ui/core';
+import { toast } from 'react-toastify';
 import Chip from '../../components/Chip/Chip.component';
 import Weather from './Weather.component';
+import { WeatherDataResponse } from './types';
 
 const query = gql`
   query ($latLong: WeatherQuery!) {
@@ -15,16 +16,6 @@ const query = gql`
     }
   }
 `;
-
-type WeatherData = {
-  temperatureinCelsius: number;
-  description: string;
-  locationName: string;
-};
-
-type WeatherDataResponse = {
-  getWeatherForLocation: WeatherData;
-};
 
 const WeatherContainer: FC = () => {
   const getLocation = useGeolocation();
@@ -40,7 +31,11 @@ const WeatherContainer: FC = () => {
   });
 
   if (loading) return <LinearProgress />;
-  if (error) return <Typography color="error">{error}</Typography>;
+  if (error) {
+    toast.error('Error getting weather!', {
+      position: toast.POSITION.TOP_LEFT,
+    });
+  }
   if (!data) return <Chip label="Weather not found" />;
   const { locationName, description, temperatureinCelsius } = data.getWeatherForLocation;
 

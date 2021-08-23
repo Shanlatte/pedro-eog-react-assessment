@@ -1,13 +1,8 @@
 import React, { FC } from 'react';
 import Chip from '../../components/Chip/Chip.component';
+import { WeatherProps } from './types';
 
 const toF = (c: number) => (c * 9) / 5 + 32;
-
-type WeatherProps = {
-  locationName: string,
-  description: string,
-  temperatureinCelsius: number,
-};
 
 const Weather: FC<WeatherProps> = ({ locationName, description, temperatureinCelsius }) => (
   <Chip

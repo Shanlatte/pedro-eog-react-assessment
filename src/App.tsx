@@ -59,6 +59,7 @@ const client = new ApolloClient({
   link: splitLink,
   cache: new InMemoryCache(),
 });
+
 const App = () => (
   <ApolloProvider client={client}>
     <Provider store={store}>

@@ -1,10 +1,11 @@
 import React, { FC, useEffect } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { RootState } from '../../redux/root-reducer';
-import { Measurements } from '../../types';
 import { setLoading, setMeasurements } from '../../redux/measurements/measurements.actions';
 import MetricsChart from './MetricsChart.component';
+import { MeasurementsDataResponse, MeasurementsDataVariable } from './types';
 
 const measurementQuery = gql`
 query ($input: [MeasurementQuery]) {
@@ -15,29 +16,17 @@ query ($input: [MeasurementQuery]) {
 }
 `;
 
-type MeasurementsDataResponse = {
-  getMultipleMeasurements: Measurements[];
-};
-
-type MeasurementsDataVariable = {
-  input: InputType[];
-};
-
-type InputType = {
-  metricName: String,
-  before: number,
-  after: number
-};
-
 const MetricsChartContainer : FC = () => {
   const metrics = useSelector((state: RootState) => state.metrics.metrics) || [];
   const after = useSelector((state: RootState) => state.measurements.after);
   const before = useSelector((state: RootState) => state.measurements.before);
   const dispatch = useDispatch();
 
-  const [get] = useLazyQuery<MeasurementsDataResponse, MeasurementsDataVariable>(
+  const [getMeasures] = useLazyQuery<MeasurementsDataResponse, MeasurementsDataVariable>(
     measurementQuery, {
-      onError: () => <div>errir</div>,
+      onError: () => toast.error('Error getting measurements!', {
+        position: toast.POSITION.TOP_LEFT,
+      }),
       onCompleted: (data) => {
         dispatch(setMeasurements(data.getMultipleMeasurements));
       },
@@ -46,7 +35,7 @@ const MetricsChartContainer : FC = () => {
 
   useEffect(() => {
     dispatch(setLoading(true));
-    get({
+    getMeasures({
       variables: {
         input: metrics.map(metric => ({
           metricName: metric,

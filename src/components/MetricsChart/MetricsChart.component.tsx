@@ -27,7 +27,7 @@ const MetricsChart : FC = () => {
         <div>
           <Paper className={classes.tooltipPaper}>
             <Box p={1}>
-              <Typography variant="body2" className={classes.datetitle}>
+              <Typography variant="body2" className={classes.datetTitle}>
                 {`${timeFormated}`}
               </Typography>
               {payload.map((metric :any) => (
@@ -67,7 +67,6 @@ const MetricsChart : FC = () => {
               <YAxis
                 yAxisId={unit}
                 dataKey="value"
-                offset={10}
                 key={unit}
                 label={{ value: unit, angle: -90, position: 'insideTopLeft' }}
                 hide={unitValidation(unit)}

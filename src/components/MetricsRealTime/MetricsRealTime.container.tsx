@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { gql, useSubscription } from '@apollo/client';
 import { useDispatch, useSelector } from 'react-redux';
-import { Measurement } from '../../types';
 import MetricsRealTime from './MetricsRealTime.component';
 import { setNewMeasure } from '../../redux/measurements/measurements.actions';
 import { RootState } from '../../redux/root-reducer';
+import { NewMeasurementDataResponse } from './types';
 
 const newMeasurementSubscription = gql`
 subscription {
@@ -17,13 +17,9 @@ subscription {
 }
 `;
 
-export type NewMeasurementDataResponse = {
-  newMeasurement: Measurement;
-};
-
 const MetricsRealTimeContainer : FC = () => {
-  const dispatch = useDispatch();
   const measurements = useSelector((state: RootState) => state.measurements.measurements) || [];
+  const dispatch = useDispatch();
 
   useSubscription<NewMeasurementDataResponse>(newMeasurementSubscription, {
     onSubscriptionData: ({ subscriptionData }) => {

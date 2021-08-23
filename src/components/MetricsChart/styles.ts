@@ -1,6 +1,13 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
+  root: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   tooltipPaper: {
     background: theme.palette.primary.main,
     borderRadius: 10,
@@ -8,16 +15,9 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   title: {
     color: 'white',
   },
-  datetitle: {
+  datetTitle: {
     color: 'white',
     marginBottom: theme.spacing(1),
-  },
-  root: {
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   loading: {
     marginLeft: theme.spacing(30),
