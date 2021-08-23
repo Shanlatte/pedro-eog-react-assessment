@@ -43,7 +43,6 @@ const MetricsChartContainer : FC = () => {
           after,
         }) || []),
       },
-
     });
   }, [metrics]);
 

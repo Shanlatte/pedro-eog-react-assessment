@@ -19,7 +19,3 @@ export type NewMetricsType = {
   flareTemp: Measurement;
 };
 export type MetricsLiteral = keyof NewMetricsType;
-export type MetricsOptions = {
-  value: string;
-  label: string;
-};
