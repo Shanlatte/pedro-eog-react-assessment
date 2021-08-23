@@ -1,6 +1,11 @@
 import { MeasurementsActionTypes } from './measurements.types';
-import { SET_MEASUREMENTS, UPDATE_HEARTBEAT, SET_NEW_MEASURE } from './measurements.constants';
 import { Measurement, Measurements } from '../../types';
+import {
+  SET_MEASUREMENTS,
+  UPDATE_HEARTBEAT,
+  SET_NEW_MEASURE,
+  SET_LOADING,
+} from './measurements.constants';
 
 export const setMeasurements = (measurements: Measurements[]): MeasurementsActionTypes => ({
   type: SET_MEASUREMENTS,
@@ -15,4 +20,9 @@ export const updateHeartBeat = (newTime: number): MeasurementsActionTypes => ({
 export const setNewMeasure = (newMeasure: Measurement): MeasurementsActionTypes => ({
   type: SET_NEW_MEASURE,
   payload: newMeasure,
+});
+
+export const setLoading = (loading: boolean): MeasurementsActionTypes => ({
+  type: SET_LOADING,
+  payload: loading,
 });

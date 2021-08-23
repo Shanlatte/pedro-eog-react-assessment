@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import React, { FC, useEffect } from 'react';
+import { gql, useLazyQuery } from '@apollo/client';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/root-reducer';
 import { Measurements } from '../../types';
-import { setMeasurements } from '../../redux/measurements/measurements.actions';
+import { setLoading, setMeasurements } from '../../redux/measurements/measurements.actions';
 import MetricsChart from './MetricsChart.component';
 
 const measurementQuery = gql`
@@ -34,9 +34,19 @@ const MetricsChartContainer : FC = () => {
   const after = useSelector((state: RootState) => state.measurements.after);
   const before = useSelector((state: RootState) => state.measurements.before);
   const dispatch = useDispatch();
-  useQuery<MeasurementsDataResponse, MeasurementsDataVariable>(
-    measurementQuery,
-    {
+
+  const [get] = useLazyQuery<MeasurementsDataResponse, MeasurementsDataVariable>(
+    measurementQuery, {
+      onError: () => <div>errir</div>,
+      onCompleted: (data) => {
+        dispatch(setMeasurements(data.getMultipleMeasurements));
+      },
+    },
+  );
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    get({
       variables: {
         input: metrics.map(metric => ({
           metricName: metric,
@@ -44,11 +54,9 @@ const MetricsChartContainer : FC = () => {
           after,
         }) || []),
       },
-      onCompleted: (data) => {
-        dispatch(setMeasurements(data.getMultipleMeasurements));
-      },
-    },
-  );
+
+    });
+  }, [metrics]);
 
   return <MetricsChart />;
 };

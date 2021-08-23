@@ -1,11 +1,17 @@
 import { Measurements, Measurement } from '../../types';
-import { SET_MEASUREMENTS, UPDATE_HEARTBEAT, SET_NEW_MEASURE } from './measurements.constants';
+import {
+  SET_MEASUREMENTS,
+  UPDATE_HEARTBEAT,
+  SET_NEW_MEASURE,
+  SET_LOADING,
+} from './measurements.constants';
 
 // Measurements State
 export interface MeasurementState {
   measurements: Measurements[],
   before: number,
   after: number,
+  loading: boolean,
   newMeasurements: NewMeasurements,
 }
 
@@ -34,5 +40,10 @@ interface SetNewMeasureAction {
   payload: Measurement
 }
 
+interface SetLoadingAction {
+  type: typeof SET_LOADING
+  payload: boolean
+}
+
 export type MeasurementsActionTypes = (
-  SetMeaurementsAction | UpdateHeartbeatAction | SetNewMeasureAction);
+  SetMeaurementsAction | UpdateHeartbeatAction | SetNewMeasureAction | SetLoadingAction);

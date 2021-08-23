@@ -23,11 +23,11 @@ export type NewMeasurementDataResponse = {
 
 const MetricsRealTimeContainer : FC = () => {
   const dispatch = useDispatch();
-  const metrics = useSelector((state: RootState) => state.metrics.metrics) || [];
+  const measurements = useSelector((state: RootState) => state.measurements.measurements) || [];
 
   useSubscription<NewMeasurementDataResponse>(newMeasurementSubscription, {
     onSubscriptionData: ({ subscriptionData }) => {
-      if (metrics.length && subscriptionData.data?.newMeasurement) {
+      if (measurements.length && subscriptionData.data?.newMeasurement) {
         dispatch(setNewMeasure(subscriptionData.data?.newMeasurement!));
       }
     },

@@ -8,21 +8,25 @@ import useStyles from './styles';
 import MetricsRealTimeContainer from '../MetricsRealTime/MetricsRealTime.container';
 
 const Body : FC = () => {
-  const metrics = useSelector((state: RootState) => state.metrics.metrics);
+  const metrics = useSelector((state: RootState) => state.metrics.metrics) || [];
+  const isLoading = useSelector((state: RootState) => state.measurements.loading);
   const classes = useStyles();
   return (
     <Grid container>
       <Grid item xs={12}>
         <MetricsSelectorContainer />
       </Grid>
-      {metrics?.length && (
+      {(metrics.length !== 0) ? (
         <Grid className={classes.chart} item xs={10}>
           <MetricsChartContainer />
         </Grid>
-      )}
-      <Grid item xs={2}>
-        <MetricsRealTimeContainer />
-      </Grid>
+      ) : null }
+      {!isLoading
+        ? (
+          <Grid hidden={metrics.length === 0} item xs={2}>
+            <MetricsRealTimeContainer />
+          </Grid>
+        ) : null}
     </Grid>
   );
 };

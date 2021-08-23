@@ -18,7 +18,6 @@ const MetricsRealTime : FC = () => {
       {metrics.map((metric, index) => (
         <Chip
           key={metric}
-          variant="outlined"
           className={classes.orange}
           style={{ backgroundColor: metricColors[index] }}
           label={`${metric}: ${newMeasurement[metric as MetricsLiteral].value}`}

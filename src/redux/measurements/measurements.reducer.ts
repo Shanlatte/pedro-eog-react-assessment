@@ -1,13 +1,16 @@
+import { MeasurementState, MeasurementsActionTypes } from './measurements.types';
 import {
-  MeasurementState,
-  MeasurementsActionTypes,
-} from './measurements.types';
-import { SET_MEASUREMENTS, UPDATE_HEARTBEAT, SET_NEW_MEASURE } from './measurements.constants';
+  SET_MEASUREMENTS,
+  UPDATE_HEARTBEAT,
+  SET_NEW_MEASURE,
+  SET_LOADING,
+} from './measurements.constants';
 
 const INITIAL_STATE: MeasurementState = {
   measurements: [],
   before: 0,
   after: 0,
+  loading: false,
   newMeasurements: {
     oilTemp: {
       unit: '',
@@ -54,6 +57,7 @@ MeasurementState => {
     case SET_MEASUREMENTS:
       return {
         ...state,
+        loading: false,
         measurements: action.payload,
       };
     case UPDATE_HEARTBEAT:
@@ -69,6 +73,11 @@ MeasurementState => {
           ...state.newMeasurements,
           [action.payload.metric]: action.payload,
         },
+      };
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload,
       };
     default:
       return state;

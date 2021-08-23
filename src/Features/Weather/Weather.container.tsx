@@ -1,8 +1,5 @@
 import React, { FC } from 'react';
-import {
-  useQuery,
-  gql,
-} from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 import { useGeolocation } from 'react-use';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { Typography } from '@material-ui/core';
@@ -24,6 +21,7 @@ type WeatherData = {
   description: string;
   locationName: string;
 };
+
 type WeatherDataResponse = {
   getWeatherForLocation: WeatherData;
 };

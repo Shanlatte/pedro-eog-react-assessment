@@ -12,6 +12,16 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     color: 'white',
     marginBottom: theme.spacing(1),
   },
+  root: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loading: {
+    marginLeft: theme.spacing(30),
+  },
 }));
 
 export default useStyles;

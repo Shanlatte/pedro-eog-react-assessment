@@ -2,7 +2,7 @@ import { SET_METRICS } from './metrics.constants';
 
 // Metrics State
 export interface MetricsState {
-  metrics: string[] | null,
+  metrics: string[],
 }
 
 // Metrics Actions
